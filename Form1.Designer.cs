@@ -38,6 +38,8 @@
             addButton = new Button();
             scheduleDataGridView = new DataGridView();
             scheduleErrorProvider = new ErrorProvider(components);
+            subjectTextBox = new TextBox();
+            subjectNameLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)scheduleDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).BeginInit();
             SuspendLayout();
@@ -49,7 +51,7 @@
             teacherComboBox.Name = "teacherComboBox";
             teacherComboBox.Size = new Size(151, 28);
             teacherComboBox.TabIndex = 0;
-            teacherComboBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            teacherComboBox.SelectedIndexChanged += teacherComboBox_SelectedIndexChanged;
             // 
             // teacherComboBoxLabel
             // 
@@ -106,22 +108,42 @@
             // 
             // scheduleDataGridView
             // 
+            scheduleDataGridView.BackgroundColor = Color.Purple;
             scheduleDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            scheduleDataGridView.Location = new Point(206, 36);
+            scheduleDataGridView.Location = new Point(371, 36);
             scheduleDataGridView.Name = "scheduleDataGridView";
             scheduleDataGridView.RowHeadersWidth = 51;
-            scheduleDataGridView.Size = new Size(832, 270);
+            scheduleDataGridView.Size = new Size(667, 270);
             scheduleDataGridView.TabIndex = 7;
             // 
             // scheduleErrorProvider
             // 
             scheduleErrorProvider.ContainerControl = this;
             // 
+            // subjectTextBox
+            // 
+            subjectTextBox.Location = new Point(208, 63);
+            subjectTextBox.Name = "subjectTextBox";
+            subjectTextBox.Size = new Size(125, 27);
+            subjectTextBox.TabIndex = 8;
+            // 
+            // subjectNameLabel
+            // 
+            subjectNameLabel.AutoSize = true;
+            subjectNameLabel.Location = new Point(208, 33);
+            subjectNameLabel.Name = "subjectNameLabel";
+            subjectNameLabel.Size = new Size(105, 20);
+            subjectNameLabel.TabIndex = 9;
+            subjectNameLabel.Text = "Subject Name:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Orchid;
             ClientSize = new Size(1242, 500);
+            Controls.Add(subjectNameLabel);
+            Controls.Add(subjectTextBox);
             Controls.Add(scheduleDataGridView);
             Controls.Add(addButton);
             Controls.Add(dateTimeLabel);
@@ -149,5 +171,8 @@
         private Button addButton;
         private DataGridView scheduleDataGridView;
         private ErrorProvider scheduleErrorProvider;
+        private TextBox subjectTextBox;
+        private Label subjectNameLabel;
+        //private Label label1;
     }
 }

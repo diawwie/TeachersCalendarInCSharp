@@ -13,15 +13,17 @@ namespace ProjectWAPTeachersCalendar
 
             // TEACHER COMBO BOX SETUP
             // adding test data
-            teacherList.Add(new Teacher { TeacherId = 1, FirstName = "Fred", LastName = "Hermann" });
-            teacherList.Add(new Teacher { TeacherId = 2, FirstName = "Tiffany", LastName = "Rose" });
+            teacherList.Add(new Teacher { TeacherId = 1, FirstName = "Fred", LastName = "Hermann", Speciality = "Computer Science" });
+            teacherList.Add(new Teacher { TeacherId = 2, FirstName = "Tiffany", LastName = "Rose", Speciality = "Algebra" });
 
             // connecting the list to the teacher comboBox
             teacherComboBox.DataSource = teacherList;
 
             // displaying on the screen
-            teacherComboBox.DisplayMember = "LastName";
-            teacherComboBox.DisplayMember = "FirstName";
+            //teacherComboBox.DisplayMember = "LastName";
+            //teacherComboBox.DisplayMember = "FirstName";
+
+            teacherComboBox.DisplayMember = "FullName"; // replacing just the name that was writing over the last name with the full name of the teacher 
             teacherComboBox.ValueMember = "TeacherId"; // keeps it hidden
 
 
@@ -44,11 +46,26 @@ namespace ProjectWAPTeachersCalendar
             // force the boxes to not have an initial value already selected, clear them out so we can test the error providers 
             teacherComboBox.SelectedIndex = -1;
             roomComboBox.SelectedIndex = -1;
+
+            subjectTextBox.Clear(); 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void teacherComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // check if the user selected a teacher and not just cleared the box
+            if (teacherComboBox.SelectedItem != null)
+            {
+                // let c# know the selected item is a teacher object
+                Teacher selectedTeacher = (Teacher)teacherComboBox.SelectedItem;
 
+                // auto-fill the text box
+                subjectTextBox.Text = selectedTeacher.Speciality;
+            }
+            else
+            {
+                // if no teacher is selected clear the box (like when the app starts)
+                subjectTextBox.Clear();
+            }
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -58,7 +75,7 @@ namespace ProjectWAPTeachersCalendar
             bool isValid = true;    // a flag to track if everything is okay
 
             // check the teacherComboBox
-            if(teacherComboBox.SelectedValue == null)
+            if (teacherComboBox.SelectedValue == null)
             {
                 scheduleErrorProvider.SetError(teacherComboBox, "You must select a teacher!");
                 isValid = false;
@@ -72,7 +89,7 @@ namespace ProjectWAPTeachersCalendar
             }
 
             // if anything is missing, stop
-            if(isValid == null)
+            if (isValid == null)
             {
                 return;
             }
@@ -95,6 +112,7 @@ namespace ProjectWAPTeachersCalendar
             Subject newClass = new Subject
             {
                 SubjectId = scheduleList.Count + 1, // generating the id
+                SubjectName = subjectTextBox.Text,
 
                 TeacherId = selectedTeacher,
                 TeacherName = teacherComboBox.Text, // grabs the teacher names like "Rose"
@@ -116,7 +134,7 @@ namespace ProjectWAPTeachersCalendar
             scheduleDataGridView.Columns["TeacherId"].Visible = false;
             scheduleDataGridView.Columns["RoomId"].Visible = false;
 
-            scheduleDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;    
+            scheduleDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             // keep these here too so it can reset the boxes to empty after creating a class 
             teacherComboBox.SelectedIndex = -1;
@@ -124,8 +142,8 @@ namespace ProjectWAPTeachersCalendar
 
             // give feedback to the user
             MessageBox.Show("Class added to the schedule successfully!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
-            
+
+            subjectTextBox.Clear(); // this empties the text box for the next entry :3
         }
     }
 }
