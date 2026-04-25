@@ -110,10 +110,10 @@
             // 
             scheduleDataGridView.BackgroundColor = Color.Purple;
             scheduleDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            scheduleDataGridView.Location = new Point(371, 36);
+            scheduleDataGridView.Location = new Point(358, 36);
             scheduleDataGridView.Name = "scheduleDataGridView";
             scheduleDataGridView.RowHeadersWidth = 51;
-            scheduleDataGridView.Size = new Size(667, 270);
+            scheduleDataGridView.Size = new Size(813, 245);
             scheduleDataGridView.TabIndex = 7;
             // 
             // scheduleErrorProvider
@@ -126,6 +126,8 @@
             subjectTextBox.Name = "subjectTextBox";
             subjectTextBox.Size = new Size(125, 27);
             subjectTextBox.TabIndex = 8;
+            subjectTextBox.Validating += subjectTextBox_Validating;
+            subjectTextBox.Validated += subjectTextBox_Validated;
             // 
             // subjectNameLabel
             // 
