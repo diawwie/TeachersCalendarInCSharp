@@ -1,5 +1,9 @@
 using WinFormsApp1ProjectWAPTeachersCalendar;
 
+// these are for serialization
+using System.IO;    // file system 
+using System.Text.Json; // json translators
+
 namespace ProjectWAPTeachersCalendar
 {
     public partial class Form1 : Form
@@ -13,8 +17,11 @@ namespace ProjectWAPTeachersCalendar
 
             // TEACHER COMBO BOX SETUP
             // adding test data
-            teacherList.Add(new Teacher { TeacherId = 1, FirstName = "Fred", LastName = "Hermann", Speciality = "Computer Science" });
+            teacherList.Add(new Teacher { TeacherId = 1, FirstName = "Fred", LastName = "Hermann", Speciality = "Economics" });
             teacherList.Add(new Teacher { TeacherId = 2, FirstName = "Tiffany", LastName = "Rose", Speciality = "Algebra" });
+            teacherList.Add(new Teacher { TeacherId = 3, FirstName = "Britney", LastName = "Chairsman", Speciality = "Data Structures" });
+            teacherList.Add(new Teacher { TeacherId = 4, FirstName = "Gregory", LastName = "Zabroski", Speciality = "Data Analysis" });
+            teacherList.Add(new Teacher { TeacherId = 5, FirstName = "Stephen", LastName = "Kinger", Speciality = "Computer Science" });
 
             // connecting the list to the teacher comboBox
             teacherComboBox.DataSource = teacherList;
@@ -26,11 +33,12 @@ namespace ProjectWAPTeachersCalendar
             teacherComboBox.DisplayMember = "FullName"; // replacing just the name that was writing over the last name with the full name of the teacher 
             teacherComboBox.ValueMember = "TeacherId"; // keeps it hidden
 
-
-
             // ROOM COMBO BOX SETUP
             roomList.Add(new Room { RoomId = 101, RoomName = "Amphitheatre 1", RoomCapacity = 100 });
             roomList.Add(new Room { RoomId = 102, RoomName = "Amphitheatre 2", RoomCapacity = 150 });
+            roomList.Add(new Room { RoomId = 103, RoomName = "Seminar room 1", RoomCapacity = 30 });
+            roomList.Add(new Room { RoomId = 104, RoomName = "Seminar room 2", RoomCapacity = 25 });
+            roomList.Add(new Room { RoomId = 105, RoomName = "Seminar room 3", RoomCapacity = 20 });
 
             // connecting the list to the room comboBox
             roomComboBox.DataSource = roomList;
@@ -39,6 +47,17 @@ namespace ProjectWAPTeachersCalendar
             roomComboBox.DisplayMember = "RoomName";    // displays Amphitheatre 1 for example
             // roomComboBox.DisplayMember = "RoomCapacity";    // displays 100
             roomComboBox.ValueMember = "RoomId";    // keeps hidden 101
+
+            // DESERIALIZATION -> telling the app to look for this file the moment it opens 
+            // checking if the file actually exists before trying to open it
+            if (File.Exists("my_schedule.json"))
+            {
+                // read the text from the file 
+                string savedJson = File.ReadAllText("my_schedule.json");
+
+                // translate it back into a list of subjects
+                scheduleList = JsonSerializer.Deserialize<List<Subject>>(savedJson);
+            }
 
             // connecting the grid to the master schedule list 
             scheduleDataGridView.DataSource = scheduleList;
@@ -95,17 +114,17 @@ namespace ProjectWAPTeachersCalendar
             }
 
             // standard & custom exceptions 
-            try 
-            { 
+            try
+            {
                 //CHECK FOR A CUSTOM EXCEPTION
                 // we don't allow the user to pick a date in the past, we're not in a time machine lol
-                if(subjectDateTimePicker.Value.Date < DateTime.Now.Date)
+                if (subjectDateTimePicker.Value.Date < DateTime.Now.Date)
                 {
                     throw new InvalidScheduleException("You cannot schedule a class in the past!");
                 }
 
                 // CHECK FOR STANDARD EXCEPTION (ex: teacher and room ids must be valid
-                if((int)teacherComboBox.SelectedValue <= 0)
+                if ((int)teacherComboBox.SelectedValue <= 0)
                 {
                     // ArgumentException is standard for C#
                     throw new ArgumentException("Invalid teacher ID!");
@@ -114,7 +133,7 @@ namespace ProjectWAPTeachersCalendar
                 {
                     throw new ArgumentException("Invalid room ID!");
                 }
-            
+
 
                 //// validation to make sure the user actually picks something
                 //if(teacherComboBox.SelectedValue == null || roomComboBox.SelectedValue == null)
@@ -191,6 +210,31 @@ namespace ProjectWAPTeachersCalendar
         {
             // if the user fixed the error and successfully validated, clear the error - red icon
             scheduleErrorProvider.SetError(subjectTextBox, "");
+        }
+
+        // SERIALIZATION - SAVING THE FILE as json
+        private void saveScheduleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // translating the list into a formatted JSON string
+                var options = new JsonSerializerOptions { WriteIndented = true };   // makes the file look pretty uwu
+                string jsonString = JsonSerializer.Serialize(scheduleList, options);
+
+                // saving the string into a text file on the computer
+                File.WriteAllText("my_schedule.json", jsonString);
+
+                MessageBox.Show("Schedule saved successfully!", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Could not save the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit(); // closes the app instantly and safely
         }
     }
 }
