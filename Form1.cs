@@ -236,5 +236,46 @@ namespace ProjectWAPTeachersCalendar
         {
             Application.Exit(); // closes the app instantly and safely
         }
+
+        private void saveAstxtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try 
+            { 
+                // list to hold all the lines of the text file 
+                List<string> reportLines = new List<string>();
+
+                // adding a fancy header to look pretty :3
+                reportLines.Add("======================================");
+                reportLines.Add("        TEACHER SCHEDULE REPORT       ");
+                reportLines.Add("======================================");
+                reportLines.Add("Generated on: " + DateTime.Now.ToString());
+                reportLines.Add("");    // adding blank lines for spacing
+
+                // looping through the schedule list and writing each class:
+                if(scheduleList.Count == 0)
+                {
+                    reportLines.Add("There are no classes scheduled at this time!");
+                }
+                else 
+                {
+                    foreach(Subject s in scheduleList)
+                    {
+                        reportLines.Add($"Subject:      {s.SubjectName}");  // $ = string interpolation 
+                        reportLines.Add($"Teacher:      {s.TeacherName}");
+                        reportLines.Add($"Room:      {s.RoomName}");
+                        reportLines.Add($"Date/Time:      {s.ClassDate.ToString("g")}");    // the built-in "General date/short time" specifier
+                        reportLines.Add("-------------------------------------------");
+                    }
+                }
+                // save all the lines into a real .txt file
+                File.WriteAllLines("ScheduleReport.txt", reportLines);
+
+                MessageBox.Show("Report exported successfully at ScheduleReport.txt!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error exporting report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
