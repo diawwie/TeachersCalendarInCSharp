@@ -62,6 +62,8 @@ namespace ProjectWAPTeachersCalendar
             // connecting the grid to the master schedule list 
             scheduleDataGridView.DataSource = scheduleList;
 
+            UpdateStatus();
+
             // force the boxes to not have an initial value already selected, clear them out so we can test the error providers 
             teacherComboBox.SelectedIndex = -1;
             roomComboBox.SelectedIndex = -1;
@@ -180,6 +182,8 @@ namespace ProjectWAPTeachersCalendar
                 // keep these here too so it can reset the boxes to empty after creating a class 
                 teacherComboBox.SelectedIndex = -1;
                 roomComboBox.SelectedIndex = -1;
+
+                UpdateStatus();
 
                 // give feedback to the user
                 MessageBox.Show("Class added to the schedule successfully!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -301,13 +305,30 @@ namespace ProjectWAPTeachersCalendar
                     // hiding the fugly ID columns 
                     scheduleDataGridView.Columns["TeacherId"].Visible = false;
                     scheduleDataGridView.Columns["RoomId"].Visible = false;
+
+                    UpdateStatus();
                 }
                 else
                 {
                     MessageBox.Show("Please select a class from the list to delete.", "Select a class", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
             }
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            // it automatically clicks the existing Menu button
+            saveScheduleToolStripMenuItem.PerformClick();
+        }
+
+        private void exportToolStripButton_Click(object sender, EventArgs e)
+        {
+            saveAstxtToolStripMenuItem.PerformClick();
+        }
+
+        private void UpdateStatus()
+        {
+            classCountLabel.Text = "Total Classes Scheduled: " + scheduleList.Count.ToString();
         }
     }
 }
