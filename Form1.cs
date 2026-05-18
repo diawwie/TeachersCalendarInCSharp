@@ -330,5 +330,37 @@ namespace ProjectWAPTeachersCalendar
         {
             classCountLabel.Text = "Total Classes Scheduled: " + scheduleList.Count.ToString();
         }
+
+        private void addNewTeacherToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // create the popup form
+            AddTeacherForm popup = new AddTeacherForm();
+
+            // open it using ShowDialog() - this pauses form1until the popup closes
+            if(popup.ShowDialog() == DialogResult.OK)
+            {
+                // grab thr "package" we made in the other form
+                Teacher createdTeacher = popup.NewTeacher;
+
+                // give them an ID number based on how many teachers already exist
+                createdTeacher.TeacherId = scheduleList.Count + 1;
+
+                // add them to the master list 
+                teacherList.Add(createdTeacher);
+
+                // virtually refresh the combobox
+                // Force a hard reset of the ComboBox
+                teacherComboBox.DataSource = null;
+                // Wrapping it in 'new List' forces the ComboBox to redraw it from scratch!
+                teacherComboBox.DataSource = new List<Teacher>(teacherList);
+                teacherComboBox.DisplayMember = "FullName";
+                teacherComboBox.ValueMember = "TeacherId";
+
+                // Select the newly added teacher automatically so the user sees it immediately
+                teacherComboBox.SelectedIndex = teacherComboBox.Items.Count - 1;
+
+                MessageBox.Show(createdTeacher.FullName + " was added in the system!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

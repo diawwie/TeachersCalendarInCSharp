@@ -53,6 +53,7 @@
             exportAsTxtToolStripMenuItem = new ToolStripButton();
             statusStrip = new StatusStrip();
             classCountLabel = new ToolStripStatusLabel();
+            addNewTeacherToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)scheduleDataGridView).BeginInit();
             contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).BeginInit();
@@ -183,7 +184,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveScheduleToolStripMenuItem, saveAstxtToolStripMenuItem, exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveScheduleToolStripMenuItem, saveAstxtToolStripMenuItem, exitToolStripMenuItem, addNewTeacherToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
@@ -191,21 +192,21 @@
             // saveScheduleToolStripMenuItem
             // 
             saveScheduleToolStripMenuItem.Name = "saveScheduleToolStripMenuItem";
-            saveScheduleToolStripMenuItem.Size = new Size(187, 26);
+            saveScheduleToolStripMenuItem.Size = new Size(224, 26);
             saveScheduleToolStripMenuItem.Text = "Save Schedule";
             saveScheduleToolStripMenuItem.Click += saveScheduleToolStripMenuItem_Click;
             // 
             // saveAstxtToolStripMenuItem
             // 
             saveAstxtToolStripMenuItem.Name = "saveAstxtToolStripMenuItem";
-            saveAstxtToolStripMenuItem.Size = new Size(187, 26);
+            saveAstxtToolStripMenuItem.Size = new Size(224, 26);
             saveAstxtToolStripMenuItem.Text = "Export as .txt";
             saveAstxtToolStripMenuItem.Click += saveAstxtToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(187, 26);
+            exitToolStripMenuItem.Size = new Size(224, 26);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -254,6 +255,13 @@
             classCountLabel.Name = "classCountLabel";
             classCountLabel.Size = new Size(50, 20);
             classCountLabel.Text = "Ready";
+            // 
+            // addNewTeacherToolStripMenuItem
+            // 
+            addNewTeacherToolStripMenuItem.Name = "addNewTeacherToolStripMenuItem";
+            addNewTeacherToolStripMenuItem.Size = new Size(224, 26);
+            addNewTeacherToolStripMenuItem.Text = "Add new teacher";
+            addNewTeacherToolStripMenuItem.Click += addNewTeacherToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -315,6 +323,7 @@
         private ToolStripButton exportAsTxtToolStripMenuItem;
         private StatusStrip statusStrip;
         private ToolStripStatusLabel classCountLabel;
+        private ToolStripMenuItem addNewTeacherToolStripMenuItem;
         //private Label label1;
     }
 }
