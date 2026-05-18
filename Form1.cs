@@ -239,8 +239,8 @@ namespace ProjectWAPTeachersCalendar
 
         private void saveAstxtToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try 
-            { 
+            try
+            {
                 // list to hold all the lines of the text file 
                 List<string> reportLines = new List<string>();
 
@@ -252,13 +252,13 @@ namespace ProjectWAPTeachersCalendar
                 reportLines.Add("");    // adding blank lines for spacing
 
                 // looping through the schedule list and writing each class:
-                if(scheduleList.Count == 0)
+                if (scheduleList.Count == 0)
                 {
                     reportLines.Add("There are no classes scheduled at this time!");
                 }
-                else 
+                else
                 {
-                    foreach(Subject s in scheduleList)
+                    foreach (Subject s in scheduleList)
                     {
                         reportLines.Add($"Subject:      {s.SubjectName}");  // $ = string interpolation 
                         reportLines.Add($"Teacher:      {s.TeacherName}");
@@ -275,6 +275,38 @@ namespace ProjectWAPTeachersCalendar
             catch (Exception ex)
             {
                 MessageBox.Show("Error exporting report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void deleteClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // check if the user actually has a row selected in their grid
+            if (scheduleDataGridView.SelectedRows.Count > 0)
+            {
+                // ask for confirmation so they don't actually delete something they don't want
+                DialogResult result = MessageBox.Show("Are you sure you want to delete this class?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    // grab the data from the selected row and tell the program it's a Subject object!
+                    Subject classToDelete = (Subject)scheduleDataGridView.SelectedRows[0].DataBoundItem;
+
+                    // remove it from the master list 
+                    scheduleList.Remove(classToDelete);
+
+                    // now refresh the grid to show the updated list
+                    scheduleDataGridView.DataSource = null;
+                    scheduleDataGridView.DataSource = scheduleList;
+
+                    // hiding the fugly ID columns 
+                    scheduleDataGridView.Columns["TeacherId"].Visible = false;
+                    scheduleDataGridView.Columns["RoomId"].Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("Please select a class from the list to delete.", "Select a class", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
             }
         }
     }

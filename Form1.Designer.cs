@@ -43,11 +43,14 @@
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             saveScheduleToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem = new ToolStripMenuItem();
             saveAstxtToolStripMenuItem = new ToolStripMenuItem();
+            exitToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuStrip = new ContextMenuStrip(components);
+            deleteClassToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)scheduleDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).BeginInit();
             menuStrip1.SuspendLayout();
+            contextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // teacherComboBox
@@ -116,9 +119,11 @@
             // 
             scheduleDataGridView.BackgroundColor = Color.Purple;
             scheduleDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            scheduleDataGridView.ContextMenuStrip = contextMenuStrip;
             scheduleDataGridView.Location = new Point(358, 36);
             scheduleDataGridView.Name = "scheduleDataGridView";
             scheduleDataGridView.RowHeadersWidth = 51;
+            scheduleDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             scheduleDataGridView.Size = new Size(813, 245);
             scheduleDataGridView.TabIndex = 7;
             // 
@@ -164,23 +169,37 @@
             // saveScheduleToolStripMenuItem
             // 
             saveScheduleToolStripMenuItem.Name = "saveScheduleToolStripMenuItem";
-            saveScheduleToolStripMenuItem.Size = new Size(224, 26);
+            saveScheduleToolStripMenuItem.Size = new Size(187, 26);
             saveScheduleToolStripMenuItem.Text = "Save Schedule";
             saveScheduleToolStripMenuItem.Click += saveScheduleToolStripMenuItem_Click;
-            // 
-            // exitToolStripMenuItem
-            // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(224, 26);
-            exitToolStripMenuItem.Text = "Exit";
-            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // saveAstxtToolStripMenuItem
             // 
             saveAstxtToolStripMenuItem.Name = "saveAstxtToolStripMenuItem";
-            saveAstxtToolStripMenuItem.Size = new Size(224, 26);
+            saveAstxtToolStripMenuItem.Size = new Size(187, 26);
             saveAstxtToolStripMenuItem.Text = "Export as .txt";
             saveAstxtToolStripMenuItem.Click += saveAstxtToolStripMenuItem_Click;
+            // 
+            // exitToolStripMenuItem
+            // 
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(187, 26);
+            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            // 
+            // contextMenuStrip
+            // 
+            contextMenuStrip.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { deleteClassToolStripMenuItem });
+            contextMenuStrip.Name = "contextMenuStrip";
+            contextMenuStrip.Size = new Size(211, 56);
+            // 
+            // deleteClassToolStripMenuItem
+            // 
+            deleteClassToolStripMenuItem.Name = "deleteClassToolStripMenuItem";
+            deleteClassToolStripMenuItem.Size = new Size(210, 24);
+            deleteClassToolStripMenuItem.Text = "Delete Class";
+            deleteClassToolStripMenuItem.Click += deleteClassToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -206,6 +225,7 @@
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            contextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -228,6 +248,8 @@
         private ToolStripMenuItem saveScheduleToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripMenuItem saveAstxtToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip;
+        private ToolStripMenuItem deleteClassToolStripMenuItem;
         //private Label label1;
     }
 }
