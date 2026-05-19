@@ -48,12 +48,14 @@
             saveScheduleToolStripMenuItem = new ToolStripMenuItem();
             saveAstxtToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
+            addNewTeacherToolStripMenuItem = new ToolStripMenuItem();
             toolStrip = new ToolStrip();
             saveToolStripButton = new ToolStripButton();
             exportAsTxtToolStripMenuItem = new ToolStripButton();
             statusStrip = new StatusStrip();
             classCountLabel = new ToolStripStatusLabel();
-            addNewTeacherToolStripMenuItem = new ToolStripMenuItem();
+            updateClassBtn = new Button();
+            viewStatisticsToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)scheduleDataGridView).BeginInit();
             contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).BeginInit();
@@ -135,6 +137,7 @@
             scheduleDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             scheduleDataGridView.Size = new Size(813, 245);
             scheduleDataGridView.TabIndex = 7;
+            scheduleDataGridView.SelectionChanged += scheduleDataGridView_SelectionChanged;
             // 
             // contextMenuStrip
             // 
@@ -184,7 +187,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveScheduleToolStripMenuItem, saveAstxtToolStripMenuItem, exitToolStripMenuItem, addNewTeacherToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveScheduleToolStripMenuItem, saveAstxtToolStripMenuItem, exitToolStripMenuItem, addNewTeacherToolStripMenuItem, viewStatisticsToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
@@ -209,6 +212,13 @@
             exitToolStripMenuItem.Size = new Size(224, 26);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            // 
+            // addNewTeacherToolStripMenuItem
+            // 
+            addNewTeacherToolStripMenuItem.Name = "addNewTeacherToolStripMenuItem";
+            addNewTeacherToolStripMenuItem.Size = new Size(224, 26);
+            addNewTeacherToolStripMenuItem.Text = "Add new teacher";
+            addNewTeacherToolStripMenuItem.Click += addNewTeacherToolStripMenuItem_Click;
             // 
             // toolStrip
             // 
@@ -256,12 +266,22 @@
             classCountLabel.Size = new Size(50, 20);
             classCountLabel.Text = "Ready";
             // 
-            // addNewTeacherToolStripMenuItem
+            // updateClassBtn
             // 
-            addNewTeacherToolStripMenuItem.Name = "addNewTeacherToolStripMenuItem";
-            addNewTeacherToolStripMenuItem.Size = new Size(224, 26);
-            addNewTeacherToolStripMenuItem.Text = "Add new teacher";
-            addNewTeacherToolStripMenuItem.Click += addNewTeacherToolStripMenuItem_Click;
+            updateClassBtn.Location = new Point(200, 344);
+            updateClassBtn.Name = "updateClassBtn";
+            updateClassBtn.Size = new Size(119, 29);
+            updateClassBtn.TabIndex = 13;
+            updateClassBtn.Text = "Update Class";
+            updateClassBtn.UseVisualStyleBackColor = true;
+            updateClassBtn.Click += updateClassBtn_Click;
+            // 
+            // viewStatisticsToolStripMenuItem
+            // 
+            viewStatisticsToolStripMenuItem.Name = "viewStatisticsToolStripMenuItem";
+            viewStatisticsToolStripMenuItem.Size = new Size(224, 26);
+            viewStatisticsToolStripMenuItem.Text = "View Statistics";
+            viewStatisticsToolStripMenuItem.Click += viewStatisticsToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -269,6 +289,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Orchid;
             ClientSize = new Size(1242, 500);
+            Controls.Add(updateClassBtn);
             Controls.Add(statusStrip);
             Controls.Add(toolStrip);
             Controls.Add(subjectNameLabel);
@@ -285,6 +306,7 @@
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)scheduleDataGridView).EndInit();
             contextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).EndInit();
@@ -324,6 +346,8 @@
         private StatusStrip statusStrip;
         private ToolStripStatusLabel classCountLabel;
         private ToolStripMenuItem addNewTeacherToolStripMenuItem;
+        private Button updateClassBtn;
+        private ToolStripMenuItem viewStatisticsToolStripMenuItem;
         //private Label label1;
     }
 }

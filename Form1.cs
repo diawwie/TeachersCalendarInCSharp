@@ -337,7 +337,7 @@ namespace ProjectWAPTeachersCalendar
             AddTeacherForm popup = new AddTeacherForm();
 
             // open it using ShowDialog() - this pauses form1until the popup closes
-            if(popup.ShowDialog() == DialogResult.OK)
+            if (popup.ShowDialog() == DialogResult.OK)
             {
                 // grab thr "package" we made in the other form
                 Teacher createdTeacher = popup.NewTeacher;
@@ -361,6 +361,80 @@ namespace ProjectWAPTeachersCalendar
 
                 MessageBox.Show(createdTeacher.FullName + " was added in the system!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void scheduleDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            // if a row is actually selected:
+            if (scheduleDataGridView.SelectedRows.Count > 0)
+            {
+                // grab the selected class
+                Subject selectedClass = (Subject)scheduleDataGridView.SelectedRows[0].DataBoundItem;
+
+                // fill up the inputs on the screen with its current data
+                teacherComboBox.SelectedValue = selectedClass.TeacherId;
+                roomComboBox.SelectedValue = selectedClass.RoomId;
+                subjectDateTimePicker.Value = selectedClass.ClassDate;
+
+                // (the teacherComboBox_SelectedIndexChanged will automatically fill the subjectTextBox)
+            }
+        }
+
+        private void updateClassBtn_Click(object sender, EventArgs e)
+        {
+            // make sure the user actually selected a row to update
+            if (scheduleDataGridView.SelectedRows.Count > 0)
+            {
+                try
+                {
+                    // grab the exact class they are trying to edit 
+                    Subject classToUpdate = (Subject)scheduleDataGridView.SelectedRows[0].DataBoundItem;
+
+                    // overwrite the old data with whatever is currently in the boxes
+                    classToUpdate.TeacherId = (int)teacherComboBox.SelectedValue;
+                    classToUpdate.TeacherName = teacherComboBox.Text;
+                    classToUpdate.RoomId = (int)roomComboBox.SelectedValue;
+                    classToUpdate.RoomName = roomComboBox.Text;
+                    classToUpdate.ClassDate = subjectDateTimePicker.Value;
+                    classToUpdate.SubjectName = subjectTextBox.Text;
+
+                    // refreshing the grid so it shows the new data
+                    scheduleDataGridView.DataSource = null;
+                    scheduleDataGridView.DataSource = scheduleList;
+                    scheduleDataGridView.Columns["TeacherId"].Visible = false;
+                    scheduleDataGridView.Columns["RoomId"].Visible = false;
+
+                    MessageBox.Show("Class updated successfully!", "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Make sure all fields are filled correctly! Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a class from the list to update first.", "Select a class", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            scheduleDataGridView.ClearSelection();
+
+            teacherComboBox.SelectedIndex = -1;
+            roomComboBox.SelectedIndex = -1;
+            subjectTextBox.Clear();
+
+            subjectDateTimePicker.Value = DateTime.Now;
+        }
+
+        private void viewStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // create a new chart window and hand it to the master schedule list 
+            ChartForm myChart = new ChartForm(scheduleList);
+
+            // open the window dialog so the user can see it
+            myChart.ShowDialog();
         }
     }
 }
