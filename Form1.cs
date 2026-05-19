@@ -15,6 +15,9 @@ namespace ProjectWAPTeachersCalendar
         {
             InitializeComponent();  // this draws our form
 
+            // waking up the db
+            DatabaseHelper.InitializeDatabase();
+
             // TEACHER COMBO BOX SETUP
             // adding test data
             teacherList.Add(new Teacher { TeacherId = 1, FirstName = "Fred", LastName = "Hermann", Speciality = "Economics" });
