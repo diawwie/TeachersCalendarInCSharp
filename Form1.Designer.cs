@@ -50,6 +50,7 @@
             exitToolStripMenuItem = new ToolStripMenuItem();
             addNewTeacherToolStripMenuItem = new ToolStripMenuItem();
             viewStatisticsToolStripMenuItem = new ToolStripMenuItem();
+            printPreviewToolStripMenuItem = new ToolStripMenuItem();
             toolStrip = new ToolStrip();
             saveToolStripButton = new ToolStripButton();
             exportAsTxtToolStripMenuItem = new ToolStripButton();
@@ -57,6 +58,7 @@
             classCountLabel = new ToolStripStatusLabel();
             updateClassBtn = new Button();
             teacherProfileCard = new CustomControlsLib.TeacherProfileCard();
+            copyToClipboardToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)scheduleDataGridView).BeginInit();
             contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).BeginInit();
@@ -143,14 +145,14 @@
             // contextMenuStrip
             // 
             contextMenuStrip.ImageScalingSize = new Size(20, 20);
-            contextMenuStrip.Items.AddRange(new ToolStripItem[] { deleteClassToolStripMenuItem });
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { deleteClassToolStripMenuItem, copyToClipboardToolStripMenuItem });
             contextMenuStrip.Name = "contextMenuStrip";
-            contextMenuStrip.Size = new Size(160, 28);
+            contextMenuStrip.Size = new Size(211, 80);
             // 
             // deleteClassToolStripMenuItem
             // 
             deleteClassToolStripMenuItem.Name = "deleteClassToolStripMenuItem";
-            deleteClassToolStripMenuItem.Size = new Size(159, 24);
+            deleteClassToolStripMenuItem.Size = new Size(210, 24);
             deleteClassToolStripMenuItem.Text = "Delete Class";
             deleteClassToolStripMenuItem.Click += deleteClassToolStripMenuItem_Click;
             // 
@@ -188,7 +190,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveScheduleToolStripMenuItem, saveAstxtToolStripMenuItem, exitToolStripMenuItem, addNewTeacherToolStripMenuItem, viewStatisticsToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveScheduleToolStripMenuItem, saveAstxtToolStripMenuItem, exitToolStripMenuItem, addNewTeacherToolStripMenuItem, viewStatisticsToolStripMenuItem, printPreviewToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
@@ -196,37 +198,44 @@
             // saveScheduleToolStripMenuItem
             // 
             saveScheduleToolStripMenuItem.Name = "saveScheduleToolStripMenuItem";
-            saveScheduleToolStripMenuItem.Size = new Size(204, 26);
+            saveScheduleToolStripMenuItem.Size = new Size(224, 26);
             saveScheduleToolStripMenuItem.Text = "Save Schedule";
             saveScheduleToolStripMenuItem.Click += saveScheduleToolStripMenuItem_Click;
             // 
             // saveAstxtToolStripMenuItem
             // 
             saveAstxtToolStripMenuItem.Name = "saveAstxtToolStripMenuItem";
-            saveAstxtToolStripMenuItem.Size = new Size(204, 26);
+            saveAstxtToolStripMenuItem.Size = new Size(224, 26);
             saveAstxtToolStripMenuItem.Text = "Export as .txt";
             saveAstxtToolStripMenuItem.Click += saveAstxtToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(204, 26);
+            exitToolStripMenuItem.Size = new Size(224, 26);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // addNewTeacherToolStripMenuItem
             // 
             addNewTeacherToolStripMenuItem.Name = "addNewTeacherToolStripMenuItem";
-            addNewTeacherToolStripMenuItem.Size = new Size(204, 26);
+            addNewTeacherToolStripMenuItem.Size = new Size(224, 26);
             addNewTeacherToolStripMenuItem.Text = "Add new teacher";
             addNewTeacherToolStripMenuItem.Click += addNewTeacherToolStripMenuItem_Click;
             // 
             // viewStatisticsToolStripMenuItem
             // 
             viewStatisticsToolStripMenuItem.Name = "viewStatisticsToolStripMenuItem";
-            viewStatisticsToolStripMenuItem.Size = new Size(204, 26);
+            viewStatisticsToolStripMenuItem.Size = new Size(224, 26);
             viewStatisticsToolStripMenuItem.Text = "View Statistics";
             viewStatisticsToolStripMenuItem.Click += viewStatisticsToolStripMenuItem_Click;
+            // 
+            // printPreviewToolStripMenuItem
+            // 
+            printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
+            printPreviewToolStripMenuItem.Size = new Size(224, 26);
+            printPreviewToolStripMenuItem.Text = "Print preview";
+            printPreviewToolStripMenuItem.Click += printPreviewToolStripMenuItem_Click;
             // 
             // toolStrip
             // 
@@ -291,6 +300,13 @@
             teacherProfileCard.Name = "teacherProfileCard";
             teacherProfileCard.Size = new Size(306, 168);
             teacherProfileCard.TabIndex = 14;
+            // 
+            // copyToClipboardToolStripMenuItem
+            // 
+            copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
+            copyToClipboardToolStripMenuItem.Size = new Size(210, 24);
+            copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
+            copyToClipboardToolStripMenuItem.Click += copyToClipboardToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -359,6 +375,8 @@
         private Button updateClassBtn;
         private ToolStripMenuItem viewStatisticsToolStripMenuItem;
         private CustomControlsLib.TeacherProfileCard teacherProfileCard;
+        private ToolStripMenuItem printPreviewToolStripMenuItem;
+        private ToolStripMenuItem copyToClipboardToolStripMenuItem;
         //private Label label1;
     }
 }

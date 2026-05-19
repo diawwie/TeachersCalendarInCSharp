@@ -3,7 +3,7 @@ using CustomControlsLib;
 using System.IO;    // file system 
 using System.Text.Json; // json translators
 using WinFormsApp1ProjectWAPTeachersCalendar;
-
+using System.Drawing.Printing;
 
 namespace ProjectWAPTeachersCalendar
 {
@@ -529,6 +529,85 @@ namespace ProjectWAPTeachersCalendar
 
             // open the window dialog so the user can see it
             myChart.ShowDialog();
+        }
+
+
+        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            // 1. Setup our "Printer Fonts"
+            Font titleFont = new Font("Segoe UI", 16, FontStyle.Bold);
+            Font regularFont = new Font("Segoe UI", 12, FontStyle.Regular);
+            Brush brush = Brushes.Black;
+
+            int currentY = 50; // Start 50 pixels from the top of the page
+            int leftMargin = 50; // Start 50 pixels from the left
+
+            // 2. Draw the Header
+            e.Graphics.DrawString("TEACHER SCHEDULE REPORT", titleFont, brush, leftMargin, currentY);
+            currentY += 40;
+            e.Graphics.DrawString("Generated on: " + DateTime.Now.ToString(), regularFont, brush, leftMargin, currentY);
+            currentY += 50;
+
+            // 3. Loop through your classes and print them!
+            if (scheduleList.Count == 0)
+            {
+                e.Graphics.DrawString("No classes currently scheduled.", regularFont, brush, leftMargin, currentY);
+            }
+            else
+            {
+                foreach (Subject s in scheduleList)
+                {
+                    e.Graphics.DrawString($"Subject: {s.SubjectName}", titleFont, brush, leftMargin, currentY);
+                    currentY += 25;
+                    e.Graphics.DrawString($"Teacher: {s.TeacherName} | Room: {s.RoomName}", regularFont, brush, leftMargin, currentY);
+                    currentY += 25;
+                    e.Graphics.DrawString($"Date: {s.ClassDate.ToString("g")}", regularFont, brush, leftMargin, currentY);
+
+                    currentY += 40; // Add space before the next class
+
+                    // If we are running off the bottom of the page, stop (keep it simple for the bonus!)
+                    if (currentY > e.PageBounds.Height - 100) break;
+                }
+            }
+        }
+
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 1. Create a virtual document
+            PrintDocument pd = new PrintDocument();
+
+            // 2. Tell the document to use the drawing method we just wrote
+            pd.PrintPage += new PrintPageEventHandler(this.printDocument_PrintPage);
+
+            // 3. Create the Print Preview pop-up window
+            PrintPreviewDialog previewDialog = new PrintPreviewDialog();
+            previewDialog.Document = pd;
+
+            // Make the preview window nice and big
+            previewDialog.Width = 800;
+            previewDialog.Height = 600;
+
+            // 4. Show it to the user!
+            previewDialog.ShowDialog();
+        }
+
+        private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Make sure a row is actually selected
+            if (scheduleDataGridView.SelectedRows.Count > 0)
+            {
+                // 1. Grab the selected class
+                Subject selectedClass = (Subject)scheduleDataGridView.SelectedRows[0].DataBoundItem;
+
+                // 2. Format a nice string with all the class info
+                string clipboardText = $"Subject: {selectedClass.SubjectName} | Teacher: {selectedClass.TeacherName} | Room: {selectedClass.RoomName} | Date: {selectedClass.ClassDate.ToString("g")}";
+
+                // 3. Send it to the Windows Clipboard!
+                Clipboard.SetText(clipboardText);
+
+                // 4. Let the user know it worked
+                MessageBox.Show("Class details copied to clipboard!", "Copied", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
