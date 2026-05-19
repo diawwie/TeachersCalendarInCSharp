@@ -18,13 +18,29 @@ namespace ProjectWAPTeachersCalendar
             // waking up the db
             DatabaseHelper.InitializeDatabase();
 
+            // check if we already have teachers in the db
+            teacherList = DatabaseHelper.LoadTeachers();
+
+            if (teacherList.Count == 0)
+            {
+                // if the db is completely brand new and empty, add these initial 5 hardcoded starters
+                DatabaseHelper.SaveTeacher(new Teacher { FirstName = "Fred", LastName = "Hermann", Speciality = "Economics" });
+                DatabaseHelper.SaveTeacher(new Teacher { FirstName = "Tiffany", LastName = "Rose", Speciality = "Algebra" });
+                DatabaseHelper.SaveTeacher(new Teacher { FirstName = "Britney", LastName = "Chairsman", Speciality = "Data Structures" });
+                DatabaseHelper.SaveTeacher(new Teacher { FirstName = "Gregory", LastName = "Zabroski", Speciality = "Data Analysis" });
+                DatabaseHelper.SaveTeacher(new Teacher { FirstName = "Stephen", LastName = "Kinger", Speciality = "Computer Science" });
+
+                // re pull them so they have their database-generated ids
+                teacherList = DatabaseHelper.LoadTeachers();
+            }
+
             // TEACHER COMBO BOX SETUP
             // adding test data
-            teacherList.Add(new Teacher { TeacherId = 1, FirstName = "Fred", LastName = "Hermann", Speciality = "Economics" });
-            teacherList.Add(new Teacher { TeacherId = 2, FirstName = "Tiffany", LastName = "Rose", Speciality = "Algebra" });
-            teacherList.Add(new Teacher { TeacherId = 3, FirstName = "Britney", LastName = "Chairsman", Speciality = "Data Structures" });
-            teacherList.Add(new Teacher { TeacherId = 4, FirstName = "Gregory", LastName = "Zabroski", Speciality = "Data Analysis" });
-            teacherList.Add(new Teacher { TeacherId = 5, FirstName = "Stephen", LastName = "Kinger", Speciality = "Computer Science" });
+            //teacherList.Add(new Teacher { TeacherId = 1, FirstName = "Fred", LastName = "Hermann", Speciality = "Economics" });
+            //teacherList.Add(new Teacher { TeacherId = 2, FirstName = "Tiffany", LastName = "Rose", Speciality = "Algebra" });
+            //teacherList.Add(new Teacher { TeacherId = 3, FirstName = "Britney", LastName = "Chairsman", Speciality = "Data Structures" });
+            //teacherList.Add(new Teacher { TeacherId = 4, FirstName = "Gregory", LastName = "Zabroski", Speciality = "Data Analysis" });
+            //teacherList.Add(new Teacher { TeacherId = 5, FirstName = "Stephen", LastName = "Kinger", Speciality = "Computer Science" });
 
             // connecting the list to the teacher comboBox
             teacherComboBox.DataSource = teacherList;
@@ -61,6 +77,9 @@ namespace ProjectWAPTeachersCalendar
                 // translate it back into a list of subjects
                 scheduleList = JsonSerializer.Deserialize<List<Subject>>(savedJson);
             }
+
+            // DESERIALIZATION IN DB
+            scheduleList = DatabaseHelper.LoadSubjects();
 
             // connecting the grid to the master schedule list 
             scheduleDataGridView.DataSource = scheduleList;
@@ -188,6 +207,25 @@ namespace ProjectWAPTeachersCalendar
 
                 UpdateStatus();
 
+
+
+
+                // ALSO SAVING INTO THE DB
+                // save it to the master database!
+                DatabaseHelper.InsertSubject(newClass);
+
+                // Reload from database so the UI has the correct database-generated IDs
+                scheduleList = DatabaseHelper.LoadSubjects();
+
+                // refreshing the grid to show the new data
+                scheduleDataGridView.DataSource = null;
+                scheduleDataGridView.DataSource = scheduleList;
+
+
+
+
+
+
                 // give feedback to the user
                 MessageBox.Show("Class added to the schedule successfully!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -232,6 +270,8 @@ namespace ProjectWAPTeachersCalendar
                 File.WriteAllText("my_schedule.json", jsonString);
 
                 MessageBox.Show("Schedule saved successfully!", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Your schedule is connected to a live SQLite database and saves automatically on every action!", "Database Connected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
             catch (Exception ex)
             {
@@ -298,6 +338,14 @@ namespace ProjectWAPTeachersCalendar
                     // grab the data from the selected row and tell the program it's a Subject object!
                     Subject classToDelete = (Subject)scheduleDataGridView.SelectedRows[0].DataBoundItem;
 
+
+                    // Remove from database!
+                    DatabaseHelper.DeleteSubject(classToDelete.SubjectId);
+                    // Re-sync memory list
+                    scheduleList = DatabaseHelper.LoadSubjects();
+
+
+
                     // remove it from the master list 
                     scheduleList.Remove(classToDelete);
 
@@ -345,11 +393,26 @@ namespace ProjectWAPTeachersCalendar
                 // grab thr "package" we made in the other form
                 Teacher createdTeacher = popup.NewTeacher;
 
-                // give them an ID number based on how many teachers already exist
-                createdTeacher.TeacherId = scheduleList.Count + 1;
+                // save to the database instantly
+                DatabaseHelper.SaveTeacher(createdTeacher);
 
-                // add them to the master list 
-                teacherList.Add(createdTeacher);
+                // re-load the master list from the database to ensure it's perfectly in sync
+                teacherList = DatabaseHelper.LoadTeachers();
+
+                // force a hard reset of theComboBox
+                teacherComboBox.DataSource = null;
+                teacherComboBox.DataSource = new List<Teacher>(teacherList);
+                teacherComboBox.DisplayMember = "FullName";
+                teacherComboBox.ValueMember = "TeacherId";
+
+                teacherComboBox.SelectedIndex = teacherComboBox.Items.Count - 1;
+
+                MessageBox.Show(createdTeacher.FullName + " was added to the database system!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                //// give them an ID number based on how many teachers already exist
+                //createdTeacher.TeacherId = scheduleList.Count + 1;
+
 
                 // virtually refresh the combobox
                 // Force a hard reset of the ComboBox
@@ -400,6 +463,13 @@ namespace ProjectWAPTeachersCalendar
                     classToUpdate.RoomName = roomComboBox.Text;
                     classToUpdate.ClassDate = subjectDateTimePicker.Value;
                     classToUpdate.SubjectName = subjectTextBox.Text;
+
+
+                    // PUSH UPDATES TO DB
+                    DatabaseHelper.UpdateSubject(classToUpdate);
+                    //resync memory list
+                    scheduleList = DatabaseHelper.LoadSubjects();
+
 
                     // refreshing the grid so it shows the new data
                     scheduleDataGridView.DataSource = null;
