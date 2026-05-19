@@ -49,13 +49,14 @@
             saveAstxtToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             addNewTeacherToolStripMenuItem = new ToolStripMenuItem();
+            viewStatisticsToolStripMenuItem = new ToolStripMenuItem();
             toolStrip = new ToolStrip();
             saveToolStripButton = new ToolStripButton();
             exportAsTxtToolStripMenuItem = new ToolStripButton();
             statusStrip = new StatusStrip();
             classCountLabel = new ToolStripStatusLabel();
             updateClassBtn = new Button();
-            viewStatisticsToolStripMenuItem = new ToolStripMenuItem();
+            teacherProfileCard = new CustomControlsLib.TeacherProfileCard();
             ((System.ComponentModel.ISupportInitialize)scheduleDataGridView).BeginInit();
             contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)scheduleErrorProvider).BeginInit();
@@ -67,16 +68,16 @@
             // teacherComboBox
             // 
             teacherComboBox.FormattingEnabled = true;
-            teacherComboBox.Location = new Point(40, 155);
+            teacherComboBox.Location = new Point(10, 96);
             teacherComboBox.Name = "teacherComboBox";
-            teacherComboBox.Size = new Size(151, 28);
+            teacherComboBox.Size = new Size(135, 28);
             teacherComboBox.TabIndex = 0;
             teacherComboBox.SelectedIndexChanged += teacherComboBox_SelectedIndexChanged;
             // 
             // teacherComboBoxLabel
             // 
             teacherComboBoxLabel.AutoSize = true;
-            teacherComboBoxLabel.Location = new Point(40, 128);
+            teacherComboBoxLabel.Location = new Point(10, 69);
             teacherComboBoxLabel.Name = "teacherComboBoxLabel";
             teacherComboBoxLabel.Size = new Size(100, 20);
             teacherComboBoxLabel.TabIndex = 1;
@@ -85,15 +86,15 @@
             // roomComboBox
             // 
             roomComboBox.FormattingEnabled = true;
-            roomComboBox.Location = new Point(40, 217);
+            roomComboBox.Location = new Point(12, 230);
             roomComboBox.Name = "roomComboBox";
-            roomComboBox.Size = new Size(151, 28);
+            roomComboBox.Size = new Size(135, 28);
             roomComboBox.TabIndex = 2;
             // 
             // roomComboBoxLabel
             // 
             roomComboBoxLabel.AutoSize = true;
-            roomComboBoxLabel.Location = new Point(40, 193);
+            roomComboBoxLabel.Location = new Point(12, 206);
             roomComboBoxLabel.Name = "roomComboBoxLabel";
             roomComboBoxLabel.Size = new Size(87, 20);
             roomComboBoxLabel.TabIndex = 3;
@@ -102,15 +103,15 @@
             // subjectDateTimePicker
             // 
             subjectDateTimePicker.Format = DateTimePickerFormat.Short;
-            subjectDateTimePicker.Location = new Point(40, 287);
+            subjectDateTimePicker.Location = new Point(12, 300);
             subjectDateTimePicker.Name = "subjectDateTimePicker";
-            subjectDateTimePicker.Size = new Size(151, 27);
+            subjectDateTimePicker.Size = new Size(135, 27);
             subjectDateTimePicker.TabIndex = 4;
             // 
             // dateTimeLabel
             // 
             dateTimeLabel.AutoSize = true;
-            dateTimeLabel.Location = new Point(40, 261);
+            dateTimeLabel.Location = new Point(12, 274);
             dateTimeLabel.Name = "dateTimeLabel";
             dateTimeLabel.Size = new Size(81, 20);
             dateTimeLabel.TabIndex = 5;
@@ -118,9 +119,9 @@
             // 
             // addButton
             // 
-            addButton.Location = new Point(44, 344);
+            addButton.Location = new Point(16, 357);
             addButton.Name = "addButton";
-            addButton.Size = new Size(94, 29);
+            addButton.Size = new Size(78, 29);
             addButton.TabIndex = 6;
             addButton.Text = "&Add Class";
             addButton.UseVisualStyleBackColor = true;
@@ -131,11 +132,11 @@
             scheduleDataGridView.BackgroundColor = Color.Purple;
             scheduleDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             scheduleDataGridView.ContextMenuStrip = contextMenuStrip;
-            scheduleDataGridView.Location = new Point(364, 128);
+            scheduleDataGridView.Location = new Point(164, 69);
             scheduleDataGridView.Name = "scheduleDataGridView";
             scheduleDataGridView.RowHeadersWidth = 51;
             scheduleDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            scheduleDataGridView.Size = new Size(813, 245);
+            scheduleDataGridView.Size = new Size(707, 258);
             scheduleDataGridView.TabIndex = 7;
             scheduleDataGridView.SelectionChanged += scheduleDataGridView_SelectionChanged;
             // 
@@ -159,9 +160,9 @@
             // 
             // subjectTextBox
             // 
-            subjectTextBox.Location = new Point(214, 155);
+            subjectTextBox.Location = new Point(10, 167);
             subjectTextBox.Name = "subjectTextBox";
-            subjectTextBox.Size = new Size(125, 27);
+            subjectTextBox.Size = new Size(109, 27);
             subjectTextBox.TabIndex = 8;
             subjectTextBox.Validating += subjectTextBox_Validating;
             subjectTextBox.Validated += subjectTextBox_Validated;
@@ -169,7 +170,7 @@
             // subjectNameLabel
             // 
             subjectNameLabel.AutoSize = true;
-            subjectNameLabel.Location = new Point(214, 125);
+            subjectNameLabel.Location = new Point(10, 137);
             subjectNameLabel.Name = "subjectNameLabel";
             subjectNameLabel.Size = new Size(105, 20);
             subjectNameLabel.TabIndex = 9;
@@ -195,30 +196,37 @@
             // saveScheduleToolStripMenuItem
             // 
             saveScheduleToolStripMenuItem.Name = "saveScheduleToolStripMenuItem";
-            saveScheduleToolStripMenuItem.Size = new Size(224, 26);
+            saveScheduleToolStripMenuItem.Size = new Size(204, 26);
             saveScheduleToolStripMenuItem.Text = "Save Schedule";
             saveScheduleToolStripMenuItem.Click += saveScheduleToolStripMenuItem_Click;
             // 
             // saveAstxtToolStripMenuItem
             // 
             saveAstxtToolStripMenuItem.Name = "saveAstxtToolStripMenuItem";
-            saveAstxtToolStripMenuItem.Size = new Size(224, 26);
+            saveAstxtToolStripMenuItem.Size = new Size(204, 26);
             saveAstxtToolStripMenuItem.Text = "Export as .txt";
             saveAstxtToolStripMenuItem.Click += saveAstxtToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(224, 26);
+            exitToolStripMenuItem.Size = new Size(204, 26);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // addNewTeacherToolStripMenuItem
             // 
             addNewTeacherToolStripMenuItem.Name = "addNewTeacherToolStripMenuItem";
-            addNewTeacherToolStripMenuItem.Size = new Size(224, 26);
+            addNewTeacherToolStripMenuItem.Size = new Size(204, 26);
             addNewTeacherToolStripMenuItem.Text = "Add new teacher";
             addNewTeacherToolStripMenuItem.Click += addNewTeacherToolStripMenuItem_Click;
+            // 
+            // viewStatisticsToolStripMenuItem
+            // 
+            viewStatisticsToolStripMenuItem.Name = "viewStatisticsToolStripMenuItem";
+            viewStatisticsToolStripMenuItem.Size = new Size(204, 26);
+            viewStatisticsToolStripMenuItem.Text = "View Statistics";
+            viewStatisticsToolStripMenuItem.Click += viewStatisticsToolStripMenuItem_Click;
             // 
             // toolStrip
             // 
@@ -268,20 +276,21 @@
             // 
             // updateClassBtn
             // 
-            updateClassBtn.Location = new Point(200, 344);
+            updateClassBtn.Location = new Point(100, 357);
             updateClassBtn.Name = "updateClassBtn";
-            updateClassBtn.Size = new Size(119, 29);
+            updateClassBtn.Size = new Size(103, 29);
             updateClassBtn.TabIndex = 13;
             updateClassBtn.Text = "Update Class";
             updateClassBtn.UseVisualStyleBackColor = true;
             updateClassBtn.Click += updateClassBtn_Click;
             // 
-            // viewStatisticsToolStripMenuItem
+            // teacherProfileCard
             // 
-            viewStatisticsToolStripMenuItem.Name = "viewStatisticsToolStripMenuItem";
-            viewStatisticsToolStripMenuItem.Size = new Size(224, 26);
-            viewStatisticsToolStripMenuItem.Text = "View Statistics";
-            viewStatisticsToolStripMenuItem.Click += viewStatisticsToolStripMenuItem_Click;
+            teacherProfileCard.BackColor = Color.Plum;
+            teacherProfileCard.Location = new Point(910, 289);
+            teacherProfileCard.Name = "teacherProfileCard";
+            teacherProfileCard.Size = new Size(306, 168);
+            teacherProfileCard.TabIndex = 14;
             // 
             // Form1
             // 
@@ -289,6 +298,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Orchid;
             ClientSize = new Size(1242, 500);
+            Controls.Add(teacherProfileCard);
             Controls.Add(updateClassBtn);
             Controls.Add(statusStrip);
             Controls.Add(toolStrip);
@@ -348,6 +358,7 @@
         private ToolStripMenuItem addNewTeacherToolStripMenuItem;
         private Button updateClassBtn;
         private ToolStripMenuItem viewStatisticsToolStripMenuItem;
+        private CustomControlsLib.TeacherProfileCard teacherProfileCard;
         //private Label label1;
     }
 }

@@ -1,8 +1,9 @@
-using WinFormsApp1ProjectWAPTeachersCalendar;
-
 // these are for serialization
+using CustomControlsLib;
 using System.IO;    // file system 
 using System.Text.Json; // json translators
+using WinFormsApp1ProjectWAPTeachersCalendar;
+
 
 namespace ProjectWAPTeachersCalendar
 {
@@ -434,6 +435,10 @@ namespace ProjectWAPTeachersCalendar
             // if a row is actually selected:
             if (scheduleDataGridView.SelectedRows.Count > 0)
             {
+                // Un-hide the card!
+                teacherProfileCard.Visible = true;
+
+
                 // grab the selected class
                 Subject selectedClass = (Subject)scheduleDataGridView.SelectedRows[0].DataBoundItem;
 
@@ -443,6 +448,19 @@ namespace ProjectWAPTeachersCalendar
                 subjectDateTimePicker.Value = selectedClass.ClassDate;
 
                 // (the teacherComboBox_SelectedIndexChanged will automatically fill the subjectTextBox)
+
+                // updating the USER CONTROL
+                string[] nameParts = selectedClass.TeacherName.Split(' ');
+                string fName = nameParts[0];
+                string lName = nameParts.Length > 1 ? nameParts[1] : "";
+                string spec = selectedClass.SubjectName;
+
+                teacherProfileCard.UpdateProfile(fName, lName, spec);
+            }
+            else
+            {
+                // If NO row is selected (like after adding a new class), hide it again!
+                teacherProfileCard.Visible = false;
             }
         }
 
@@ -499,6 +517,9 @@ namespace ProjectWAPTeachersCalendar
             subjectTextBox.Clear();
 
             subjectDateTimePicker.Value = DateTime.Now;
+
+            // Hide the profile card when the app first opens
+            teacherProfileCard.Visible = false;
         }
 
         private void viewStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
